@@ -1,6 +1,6 @@
 import {
   Space_Mono as Code,
-  Days_One as Display,
+  Bebas_Neue as Display,
   Figtree as Text,
 } from "next/font/google";
 

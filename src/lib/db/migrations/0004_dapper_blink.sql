@@ -1,0 +1,1 @@
+ALTER TABLE "hybrid-clerk_deceased" ADD COLUMN "image" text NOT NULL;

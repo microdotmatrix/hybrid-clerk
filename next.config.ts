@@ -3,12 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
-    cacheComponents: true,
-    clientSegmentCache: true,
     reactCompiler: true,
     viewTransition: true,
     useLightningcss: true,
     authInterrupts: true,
+    serverActions: {
+      bodySizeLimit: "4mb",
+    },
   },
   typescript: {
     ignoreBuildErrors: true,

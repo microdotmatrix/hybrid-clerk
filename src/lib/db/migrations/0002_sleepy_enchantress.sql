@@ -1,0 +1,1 @@
+ALTER TABLE "hybrid-clerk_obituary_details" ALTER COLUMN "entry_id" SET DATA TYPE uuid;
