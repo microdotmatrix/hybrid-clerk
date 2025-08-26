@@ -5,11 +5,11 @@ export const meta = {
     light: "#ffffff",
     dark: "#09090b",
   },
-  title: "Next.js AI",
-  description: "Next.js AI",
-  keywords: ["Next.js", "AI", "MicrodotMatrix"],
+  title: "Death Matter Tools",
+  description: "Death Matter Tools",
+  keywords: ["Death Matter", "Tools", "death", "obituaries", "ai"],
   author: "MicrodotMatrix",
-  url: "https://github.com/microdotmatrix/nextjs-ai",
+  url: "https://github.com/microdotmatrix/hybrid-clerk",
 };
 
 // Navigation links array

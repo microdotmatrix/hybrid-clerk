@@ -1,4 +1,5 @@
 import { SignUp } from "@clerk/nextjs";
+import Image from "next/image";
 
 export default function SignUpPage() {
   return (
@@ -11,10 +12,11 @@ export default function SignUpPage() {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
-          src="/placeholder.svg"
+        <Image
+          src="/images/fs-img_01.jpg"
           alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale opacity-50"
+          fill
+          className="absolute h-full w-full object-cover object-center dark:brightness-[0.5] opacity-50"
         />
       </div>
     </main>
