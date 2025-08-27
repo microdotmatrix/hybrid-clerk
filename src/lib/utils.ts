@@ -1,6 +1,10 @@
+import type { ChatMessage, ChatTools, CustomUIDataTypes } from "@/types/data";
+import type { UIMessagePart } from "ai";
 import { clsx, type ClassValue } from "clsx";
+import { formatISO } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
+import { DBMessage } from "./db/schema";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -30,6 +34,28 @@ export function action<S extends z.ZodType<any, any>, T>(
     return action(result.data, formData);
   };
 }
+
+interface ApplicationError extends Error {
+  info: string;
+  status: number;
+}
+
+export const fetcher = async (url: string) => {
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    const error = new Error(
+      "An error occurred while fetching the data."
+    ) as ApplicationError;
+
+    error.info = await res.json();
+    error.status = res.status;
+
+    throw error;
+  }
+
+  return res.json();
+};
 
 export function getLocalStorage(key: string) {
   if (typeof window !== "undefined") {
@@ -97,3 +123,21 @@ export const formatTime = (time: string): string => {
 
   return `${hour12}:${minutes} ${ampm}`;
 };
+
+export function convertToUIMessages(messages: DBMessage[]): ChatMessage[] {
+  return messages.map((message) => ({
+    id: message.id,
+    role: message.role as "user" | "assistant" | "system",
+    parts: message.parts as UIMessagePart<CustomUIDataTypes, ChatTools>[],
+    metadata: {
+      createdAt: formatISO(message.createdAt),
+    },
+  }));
+}
+
+export function getTextFromMessage(message: ChatMessage): string {
+  return message.parts
+    .filter((part) => part.type === "text")
+    .map((part) => part.text)
+    .join("");
+}

@@ -1,4 +1,4 @@
-// export * from "./chat";
+export * from "./chat";
 export * from "./deceased";
 export * from "./obituaries";
 export * from "./settings";

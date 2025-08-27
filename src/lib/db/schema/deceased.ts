@@ -34,6 +34,8 @@ export const EntryRelations = relations(EntryTable, ({ one }) => ({
   }),
 }));
 
+export type Entry = typeof EntryTable.$inferSelect;
+
 export const ObituaryDetailsTable = pgTable("obituary_details", {
   entryId: text("entry_id")
     .notNull()
@@ -86,5 +88,4 @@ export const ObituaryDetailsRelations = relations(
   })
 );
 
-export type Entry = typeof EntryTable.$inferSelect;
 export type ObituaryDetails = typeof ObituaryDetailsTable.$inferSelect;

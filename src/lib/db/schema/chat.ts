@@ -16,7 +16,7 @@ export const ChatTable = pgTable("Chat", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   createdAt: timestamp("createdAt").notNull(),
   title: text("title").notNull(),
-  userId: uuid("userId")
+  userId: text("userId")
     .notNull()
     .references(() => UserTable.id),
   visibility: varchar("visibility", { enum: ["public", "private"] })
@@ -51,7 +51,7 @@ export const MessageRelations = relations(MessageTable, ({ one }) => ({
   }),
 }));
 
-export type Message = typeof MessageTable.$inferSelect;
+export type DBMessage = typeof MessageTable.$inferSelect;
 
 export const VoteTable = pgTable("Vote", {
   chatId: uuid("chatId")
@@ -86,15 +86,17 @@ export const DocumentTable = pgTable(
     kind: varchar("text", { enum: ["text"] })
       .notNull()
       .default("text"),
-    userId: uuid("userId")
+    userId: text("userId")
       .notNull()
       .references(() => UserTable.id),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.id, table.createdAt] }),
-    };
-  }
+  (table) => [
+    primaryKey({ columns: [table.id, table.createdAt] }),
+    foreignKey({
+      columns: [table.userId],
+      foreignColumns: [UserTable.id],
+    }),
+  ]
 );
 
 export const DocumentRelations = relations(DocumentTable, ({ one }) => ({
@@ -116,18 +118,18 @@ export const SuggestionTable = pgTable(
     suggestedText: text("suggestedText").notNull(),
     description: text("description"),
     isResolved: boolean("isResolved").notNull().default(false),
-    userId: uuid("userId")
+    userId: text("userId")
       .notNull()
       .references(() => UserTable.id),
     createdAt: timestamp("createdAt").notNull(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.id] }),
-    documentRef: foreignKey({
+  (table) => [
+    primaryKey({ columns: [table.id] }),
+    foreignKey({
       columns: [table.documentId, table.documentCreatedAt],
       foreignColumns: [DocumentTable.id, DocumentTable.createdAt],
     }),
-  })
+  ]
 );
 
 export const SuggestionRelations = relations(SuggestionTable, ({ one }) => ({
@@ -146,13 +148,13 @@ export const StreamTable = pgTable(
     chatId: uuid("chatId").notNull(),
     createdAt: timestamp("createdAt").notNull(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.id] }),
-    chatRef: foreignKey({
+  (table) => [
+    primaryKey({ columns: [table.id] }),
+    foreignKey({
       columns: [table.chatId],
       foreignColumns: [ChatTable.id],
     }),
-  })
+  ]
 );
 
 export const StreamRelations = relations(StreamTable, ({ one }) => ({

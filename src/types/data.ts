@@ -1,13 +1,11 @@
+import type { createDocument } from "@/lib/ai/tools/create-document";
+import type { requestSuggestions } from "@/lib/ai/tools/request-suggestions";
+import type { updateDocument } from "@/lib/ai/tools/update-document";
 import type { InferUITool, UIMessage } from "ai";
 import { z } from "zod";
-import type { createDocument } from "./ai/tools/create-document";
-import type { requestSuggestions } from "./ai/tools/request-suggestions";
-import type { updateDocument } from "./ai/tools/update-document";
 
+import type { ArtifactKind } from "@/components/artifact";
 import type { Suggestion } from "@/lib/db/schema";
-
-export const artifactDefinitions = [textArtifact];
-export type ArtifactKind = (typeof artifactDefinitions)[number]["kind"];
 
 export type DataPart = { type: "append-message"; message: string };
 

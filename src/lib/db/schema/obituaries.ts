@@ -34,3 +34,5 @@ export const ObituaryRelations = relations(ObituaryTable, ({ one }) => ({
     references: [EntryTable.id],
   }),
 }));
+
+export type Obituary = typeof ObituaryTable.$inferSelect;
